@@ -3,8 +3,13 @@ import tensorflow as tf
 from tensorflow.keras import layers, models, optimizers
 from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import matplotlib.pyplot as plt
 
-train_data_dir = 'train'
+print("Tensorflow verisi: ", tf.__version__)
+print("NumPy verisi: ", np.__version__)
+print("Matplotlib versiyonu: ", plt.matplotlib.__version__)
+
+train_data_dir = 'eğitim'
 test_data_dir = 'test'
 
 img_width, img_height = 224, 224#veri boyutu
@@ -27,13 +32,15 @@ train_generator = train_datagen.flow_from_directory(
     train_data_dir,
     target_size=(img_width, img_height),
     batch_size=batch_size,
-    class_mode='categorical'
+    class_mode='categorical',
+    classes=['egitim', 'silah', 'bıçak', 'tabanca', 'tornavida', 'benzen']
 )
 test_generator = test_datagen.flow_from_directory(
     test_data_dir,
     target_size=(img_width, img_height),
     batch_size=batch_size,
-    class_mode='categorical'
+    class_mode='categorical',
+    classes=['egitim', 'silah', 'bıçak', 'tabanca', 'tornavida', 'benzen']
 )
 base_model = MobileNetV2(
     input_shape=(img_width, img_height, 3),
@@ -44,12 +51,11 @@ x = layers.GlobalAveragePooling2D()(base_model.output)
 x = layers.Dense(1024, activation='relu')(x)
 predictions = layers.Dense(num_classes, activation='softmax')(x)
 model = models.Model(inputs=base_model.input, outputs=predictions)
+print("Model test ediliyor...")
 opt = optimizers.Adam(lr=0.001)
 model.compile(optimizer=opt,
               loss='categorical_crossentropy',
               metrics=['accuracy'])
-
-
 history = model.fit(
     train_generator,
     steps_per_epoch=train_generator.samples // batch_size,
@@ -57,26 +63,40 @@ history = model.fit(
     validation_data=test_generator,
     validation_steps=test_generator.samples // batch_size
 )
-
-import matplotlib.pyplot as plt
-
+print("Model test edildi.")
+history = model.fit(
+    train_generator,
+    steps_per_epoch=train_generator.samples // batch_size,
+    epochs=epochs,
+    validation_data=test_generator,
+    validation_steps=test_generator.samples // batch_size
+)
+print("Model eğitiliyor...")
 acc = history.history['accuracy']
+print(acc)
+print(len(acc))
+print(len(history.history['accuracy']))
+print(len(history.history['loss']))
+print(len(history.history['val_accuracy']))
+print(len(history.history['val_loss']))
 val_acc = history.history['val_accuracy']
 loss = history.history['loss']
 val_loss = history.history['val_loss']
-
 epochs_range = range(epochs)
-
+print(epochs_range)
+print(len(epochs_range))
+model.save('my_model.h5')
+print("Model kaydedildi.")
+print("Model eğitimi tamamlandı.")
 plt.figure(figsize=(15, 5))
 plt.subplot(1, 2, 1)
-plt.plot(epochs_range, acc, label='Training Accuracy')
-plt.plot(epochs_range, val_acc, label='Validation Accuracy')
-plt.legend(loc='lower right')
-plt.title('Training and Validation Accuracy')
-
+plt.plot(epochs_range, acc, label='Eğitim Doğruluğu')
+plt.plot(epochs_range, val_acc, label='Doğrulama Doğruluğu')
+plt.legend(loc='Alt Sağ')
+plt.title('Eğitim ve Doğrulama')
 plt.subplot(1, 2, 2)
-plt.plot(epochs_range, loss, label='Training Loss')
-plt.plot(epochs_range, val_loss, label='Validation Loss')
-plt.legend(loc='upper right')
-plt.title('Training and Validation Loss')
+plt.plot(epochs_range, loss, label='eğitim kaybı') 
+plt.plot(epochs_range, val_loss, label='doğrulama kaybı')
+plt.legend(loc='Sağ üst')
+plt.title('Eğitim ve Doğrulama kaybı')
 plt.show()
