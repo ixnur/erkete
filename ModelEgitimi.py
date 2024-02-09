@@ -48,7 +48,31 @@ base_model = MobileNetV2(
     include_top=False
 )
 x = layers.GlobalAveragePooling2D()(base_model.output)
-x = layers.Dense(1024, activation='relu')(x)
+x = layers.Dense(2048, activation='relu')(x)
+x = layers.Dropout(0.5)(x)  
+x = layers.Dense(1024, activation='relu')(x)  
+x = layers.Dropout(0.5)(x)
+x = layers.Dense(512, activation='relu')(x)
+x = layers.Dropout(0.5)(x)  
+x = layers.Dense(256, activation='relu')(x)  
+x = layers.Dropout(0.5)(x)
+x = layers.Dense(128, activation='relu')(x)
+x = layers.Dropout(0.5)(x)  
+x = layers.Dense(64, activation='relu')(x)  
+x = layers.Dropout(0.5)(x)
+x = layers.Dense(32, activation='relu')(x)
+x = layers.Dropout(0.5)(x)  
+x = layers.Dense(16, activation='relu')(x)  
+x = layers.Dropout(0.5)(x)
+x = layers.Dense(8, activation='relu')(x)
+x = layers.Dropout(0.5)(x)  
+x = layers.Dense(4, activation='relu')(x)  
+x = layers.Dropout(0.5)(x)
+x = layers.Dense(2, activation='relu')(x)
+x = layers.Dropout(0.5)(x)  
+x = layers.Dense(1, activation='relu')(x)  
+x = layers.Dropout(0.5)(x)
+
 predictions = layers.Dense(num_classes, activation='softmax')(x)
 model = models.Model(inputs=base_model.input, outputs=predictions)
 print("Model test ediliyor...")
@@ -71,23 +95,26 @@ history = model.fit(
     validation_data=test_generator,
     validation_steps=test_generator.samples // batch_size
 )
+
 print("Model eğitiliyor...")
 acc = history.history['accuracy']
-print(acc)
+val_acc = history.history['val_accuracy']
+loss = history.history['loss']
+val_loss = history.history['val_loss']
+epochs_range = range(epochs)
 print(len(acc))
 print(len(history.history['accuracy']))
 print(len(history.history['loss']))
 print(len(history.history['val_accuracy']))
 print(len(history.history['val_loss']))
-val_acc = history.history['val_accuracy']
-loss = history.history['loss']
-val_loss = history.history['val_loss']
-epochs_range = range(epochs)
 print(epochs_range)
 print(len(epochs_range))
+
 model.save('my_model.h5')
+
 print("Model kaydedildi.")
 print("Model eğitimi tamamlandı.")
+
 plt.figure(figsize=(15, 5))
 plt.subplot(1, 2, 1)
 plt.plot(epochs_range, acc, label='Eğitim Doğruluğu')
