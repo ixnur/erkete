@@ -21,20 +21,19 @@ input_shape = (img_width, img_height, 3)#resim boyutu
 
 train_datagen = ImageDataGenerator(
     rescale=1.0 / 255,
+    validation_split=0.2,
     rotation_range=20,
     width_shift_range=0.2,
     height_shift_range=0.2,
     shear_range=0.2,
+    brightness_range=[0.2, 1.0],
     zoom_range=0.2,
     horizontal_flip=True,
+    vertical_flip=False,
     fill_mode='nearest'
-)
+    )
 
 test_datagen = ImageDataGenerator(rescale=1.0 / 255)
-#rescale: veri boyutunu 0-1 arasına çevirir
-#rotation_range: veri döndürür
-#width_shift_range: veri hareket eder
-
 
 train_generator = train_datagen.flow_from_directory(
     train_data_dir,
