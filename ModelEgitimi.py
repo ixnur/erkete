@@ -16,6 +16,8 @@ img_width, img_height = 224, 224#veri boyutu
 batch_size = 32
 epochs = 10
 num_classes = 8#sınıf sayısı
+input_shape = (img_width, img_height, 3)#resim boyutu
+
 
 train_datagen = ImageDataGenerator(
     rescale=1.0 / 255,
@@ -27,7 +29,13 @@ train_datagen = ImageDataGenerator(
     horizontal_flip=True,
     fill_mode='nearest'
 )
+
 test_datagen = ImageDataGenerator(rescale=1.0 / 255)
+#rescale: veri boyutunu 0-1 arasına çevirir
+#rotation_range: veri döndürür
+#width_shift_range: veri hareket eder
+
+
 train_generator = train_datagen.flow_from_directory(
     train_data_dir,
     target_size=(img_width, img_height),
