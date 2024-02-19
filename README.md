@@ -5,7 +5,9 @@ Bende açık kaynak olarak geliştirmek istiyorum hepinizin yardımına ihtiyac�
 Son zamanlarda İzmir'deki taksi olaylarından haberiniz olmuştur. Bu olaylar, taksi, dolmuş ve otobüs şoförlerinin güvenliğinin ne kadar önemli olduğunu bir kez daha ortaya koyuyor. Bu sebeple, güvenliklerini artırmak için bir çözüm geliştirmeye karar verdim.
 
 "Erkete" adını verdiğim projem, taksi, dolmuş ve otobüs şoförlerinin güvenliğini artırmak amacıyla tasarlanmış bir erken uyarı sistemini içeriyor. Bu sistem, aracın içine monte edilen gece görüş özellikli kamera(lar) ve görüntü işleme birimleri kullanarak potansiyel tehlikeleri tespit ediyor ve şoförleri uyarıyor.
-Tabiki yz eğiticem bunun için ama benim sorunum duygusal ve donanımsal :)
+
+![94B51816-8A0E-4203-9658-0CF120CC931E](https://github.com/ixnur/erkete/assets/131625021/5f7eb7b9-dc91-40e5-8068-463a1dcc9286)
+
 
 ## tanımı : Sistem, aracın içine monte edilen bir veya daha fazla kamera ve görüntü işleme birimi kullanır. Kamera(lar), aracın içindeki olayları sürekli olarak izler ve algılar. Görüntü işleme birimi, kameradan gelen görüntüleri analiz eder ve potansiyel tehlikeleri belirler.
 
